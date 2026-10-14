@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vehicle Service Booking &amp; Cost Estimation - AutoPro Mechanics</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- Navigation Bar -->
+  <header class="navbar">
+    <div class="nav-container">
+      <a href="index.html" class="brand-logo">AutoPro Mechanics</a>
+      <nav>
+        <ul class="nav-links">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="service.html" class="active">Book Service</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Main Container -->
+  <main class="main-content">
+    <div class="page-header">
+      <h1>Online Vehicle Service Booking &amp; Cost Estimation</h1>
+      <p>Enter your customer and vehicle details, pick required services, and view estimated costs in real time.</p>
+    </div>
+
+    <!-- Two-Column Layout: Form (left) and Summary Panel (right) -->
+    <div class="booking-grid">
+
+      <!-- LEFT COLUMN: BOOKING FORM -->
+      <section class="card">
+        <!-- 
+          DEMO EXPLANATION:
+          Form submits via POST to process_service.php.
+          Client-side JavaScript intercepts onsubmit (validateServiceForm) to validate all fields.
+          The novalidate attribute disables browser default tooltip popups so our inline error messages display directly below each field.
+        -->
+        <form id="serviceBookingForm" action="process_service.php" method="POST" novalidate>
+
+          <!-- 1. Customer Details -->
+          <div class="form-section-title">1. Customer Details</div>
+
+          <div class="form-group">
+            <label for="customerName" class="form-label">Full Name <span class="required">*</span></label>
+            <input 
+              type="text" 
+              id="customerName" 
+              name="customer_name" 
+              class="form-input" 
+              placeholder="e.g. John Kamau" 
+              autocomplete="name"
+            >
+            <span class="error-message" id="customerNameError"></span>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="phoneNumber" class="form-label">Phone Number (10 Digits) <span class="required">*</span></label>
+              <input 
+                type="tel" 
+                id="phoneNumber" 
+                name="phone_number" 
+                class="form-input" 
+                placeholder="0712345678" 
+                maxlength="10"
+              >
+              <span class="error-message" id="phoneNumberError"></span>
+              <span class="help-text">10 numeric digits starting with 0</span>
+            </div>
+
+            <div class="form-group">
+              <label for="emailAddress" class="form-label">Email Address <span class="required">*</span></label>
+              <input 
+                type="email" 
+                id="emailAddress" 
+                name="email_address" 
+                class="form-input" 
+                placeholder="name@example.com" 
+                autocomplete="email"
+              >
+              <span class="error-message" id="emailAddressError"></span>
+            </div>
+          </div>
+
+          <!-- 2. Vehicle Information -->
+          <div class="form-section-title">2. Vehicle Information</div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="vehicleReg" class="form-label">Vehicle Registration <span class="required">*</span></label>
+              <input 
+                type="text" 
+                id="vehicleReg" 
+                name="vehicle_reg" 
+                class="form-input" 
+                placeholder="KDA 123A" 
+                style="text-transform: uppercase;"
+              >
+              <span class="error-message" id="vehicleRegError"></span>
+            </div>
+
+            <div class="form-group">
+              <label for="vehicleType" class="form-label">Vehicle Type <span class="required">*</span></label>
+              <select id="vehicleType" name="vehicle_type" class="form-select">
+                <option value="">-- Select Vehicle Type --</option>
+                <option value="Saloon Car">Saloon Car</option>
+                <option value="SUV">SUV</option>
+                <option value="Pickup">Pickup</option>
+                <option value="Van">Van</option>
+              </select>
+              <span class="error-message" id="vehicleTypeError"></span>
+            </div>
+          </div>
+
+          <!-- 
+            DEMO EXPLANATION (Dynamic Feature 1): 
+            Specific mechanical advice box populated by JavaScript updateVehicleInfo()
+            when the user changes the vehicle type dropdown.
+          -->
+          <div id="vehicleTipBox" class="vehicle-tip-box" aria-live="polite"></div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="manufactureYear" class="form-label">Year of Manufacture <span class="required">*</span></label>
+              <input 
+                type="number" 
+                id="manufactureYear" 
+                name="manufacture_year" 
+                class="form-input" 
+                placeholder="2018" 
+                min="1990" 
+                max="2026"
+              >
+              <span class="error-message" id="manufactureYearError"></span>
+              <span class="help-text">Valid range: 1990 to 2026</span>
+            </div>
+
+            <div class="form-group">
+              <label for="serviceDate" class="form-label">Preferred Service Date <span class="required">*</span></label>
+              <input 
+                type="date" 
+                id="serviceDate" 
+                name="service_date" 
+                class="form-input"
+              >
+              <span class="error-message" id="serviceDateError"></span>
+            </div>
+          </div>
+
+          <!-- 3. Required Services -->
+          <div class="form-section-title">3. Required Services</div>
+          <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.65rem;">
+            Select one or more services. Total cost updates automatically.
+          </p>
+
+          <div class="service-items-list">
+            <!-- Service 1: Engine Oil Change -->
+            <label class="service-item-row" for="svc_oil">
+              <div class="service-item-left">
+                <input 
+                  type="checkbox" 
+                  id="svc_oil" 
+                  name="services[]" 
+                  value="Engine Oil Change" 
+                  data-price="3000" 
+                  class="service-checkbox"
+                >
+                <div>
+                  <div class="service-item-title">Engine Oil Change</div>
+                  <div class="service-item-desc">Engine oil and oil filter replacement</div>
+                </div>
+              </div>
+              <div class="service-item-price">KSh 3,000</div>
+            </label>
+
+            <!-- Service 2: Brake Inspection -->
+            <label class="service-item-row" for="svc_brake">
+              <div class="service-item-left">
+                <input 
+                  type="checkbox" 
+                  id="svc_brake" 
+                  name="services[]" 
+                  value="Brake Inspection" 
+                  data-price="2000" 
+                  class="service-checkbox"
+                >
+                <div>
+                  <div class="service-item-title">Brake Inspection</div>
+                  <div class="service-item-desc">Brake pads, discs, and fluid level check</div>
+                </div>
+              </div>
+              <div class="service-item-price">KSh 2,000</div>
+            </label>
+
+            <!-- Service 3: Wheel Alignment -->
+            <label class="service-item-row" for="svc_alignment">
+              <div class="service-item-left">
+                <input 
+                  type="checkbox" 
+                  id="svc_alignment" 
+                  name="services[]" 
+                  value="Wheel Alignment" 
+                  data-price="2500" 
+                  class="service-checkbox"
+                >
+                <div>
+                  <div class="service-item-title">Wheel Alignment</div>
+                  <div class="service-item-desc">Front and rear computerized wheel alignment</div>
+                </div>
+              </div>
+              <div class="service-item-price">KSh 2,500</div>
+            </label>
+
+            <!-- Service 4: Computer Diagnosis -->
+            <label class="service-item-row" for="svc_diagnosis">
+              <div class="service-item-left">
+                <input 
+                  type="checkbox" 
+                  id="svc_diagnosis" 
+                  name="services[]" 
+                  value="Computer Diagnosis" 
+                  data-price="3500" 
+                  class="service-checkbox"
+                >
+                <div>
+                  <div class="service-item-title">Computer Diagnosis</div>
+                  <div class="service-item-desc">Electronic ECU scan and error code report</div>
+                </div>
+              </div>
+              <div class="service-item-price" id="diagnosisPriceTag">KSh 3,500</div>
+            </label>
+
+            <!-- Service 5: Full Service -->
+            <label class="service-item-row" for="svc_full">
+              <div class="service-item-left">
+                <input 
+                  type="checkbox" 
+                  id="svc_full" 
+                  name="services[]" 
+                  value="Full Service" 
+                  data-price="8000" 
+                  class="service-checkbox"
+                >
+                <div>
+                  <div class="service-item-title">Full Service</div>
+                  <div class="service-item-desc">Comprehensive mechanical and safety service package</div>
+                </div>
+              </div>
+              <div class="service-item-price">KSh 8,000</div>
+            </label>
+          </div>
+
+          <span class="error-message" id="servicesError"></span>
+
+          <!-- Form Buttons -->
+          <div class="form-actions">
+            <button type="submit" id="submitBtn" class="btn btn-primary btn-block">
+              Submit Booking &amp; Generate Receipt
+            </button>
+            <button type="reset" id="resetBtn" class="btn btn-secondary">
+              Reset
+            </button>
+          </div>
+
+        </form>
+      </section>
+
+      <!-- RIGHT COLUMN: DYNAMIC LIVE ESTIMATION PANEL -->
+      <aside class="card" aria-label="Booking Cost Summary">
+        <div class="summary-panel-title">
+          <span>Cost Estimation</span>
+          <span class="tag-badge">Live Summary</span>
+        </div>
+
+        <!-- Vehicle Type Display -->
+        <div class="summary-meta-row">
+          <div class="summary-meta-label">Selected Vehicle Type</div>
+          <div class="summary-meta-value" id="summaryVehicleType">None Selected</div>
+        </div>
+
+        <!-- 
+          DEMO EXPLANATION (Dynamic Feature 2): 
+          Real-time bulleted list of checked services populated by JavaScript updateSelectedServicesList().
+        -->
+        <div>
+          <div class="selected-services-heading">Selected Services Breakdown:</div>
+          <ul id="selectedServicesList" class="selected-services-list">
+            <li class="empty-services-note">No services selected yet.</li>
+          </ul>
+        </div>
+
+        <!-- 
+          DEMO EXPLANATION (Digit 6 Individualization):
+          Notice shown when both "Full Service" and "Computer Diagnosis" are selected.
+        -->
+        <div id="digit6PromoBanner" class="digit6-promo-banner" role="status">
+          <h4>Digit 6 Special Offer Applied</h4>
+          <p>Full Service is selected: Computer Diagnosis is <strong>FREE (KSh 0)</strong>, saving KSh 3,500.</p>
+        </div>
+
+        <!-- Real-Time Total Display -->
+        <div class="total-cost-box">
+          <div class="total-label">Estimated Total</div>
+          <div class="total-amount-display" id="totalCostDisplay">KSh 0.00</div>
+          <div class="total-note">Independent price verification on submission</div>
+        </div>
+
+      </aside>
+
+    </div>
+  </main>
+
+  <!-- Site Footer -->
+  <footer class="site-footer">
+    <div class="footer-container">
+      <div>AutoPro Vehicle Service Booking &amp; Cost Estimation System</div>
+      <div>PHP &amp; Web Development CAT 1 Assignment</div>
+    </div>
+  </footer>
+
+  <!-- JavaScript -->
+  <script src="js/script.js"></script>
+
+</body>
+</html>

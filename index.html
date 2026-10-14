@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AutoPro Mechanics - Vehicle Service Booking System</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- Navigation Bar -->
+  <header class="navbar">
+    <div class="nav-container">
+      <a href="index.html" class="brand-logo">AutoPro Mechanics</a>
+      <nav>
+        <ul class="nav-links">
+          <li><a href="index.html" class="active">Home</a></li>
+          <li><a href="service.html">Book Service</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="main-content">
+
+    <!-- Overview Banner -->
+    <section class="hero-section">
+      <div class="hero-subtitle-tag">University CAT 1 Project</div>
+      <h1 class="hero-title">Online Vehicle Service Booking &amp; Cost Estimation System</h1>
+      <p class="hero-desc">
+        A web-based system providing vehicle owners with instant cost estimation, 
+        customized maintenance advisories by vehicle type, and verified booking receipt generation.
+      </p>
+      <div>
+        <a href="service.html" class="btn btn-primary">Open Service Booking Form</a>
+      </div>
+    </section>
+
+    <!-- Key Functional Modules -->
+    <div class="section-heading">
+      <h2>System Capabilities</h2>
+      <p>Overview of technical requirements implemented in this application</p>
+    </div>
+
+    <section class="features-grid">
+      <div class="feature-card">
+        <h3>Real-Time Calculation</h3>
+        <p>JavaScript calculates and updates estimated service totals on the page immediately when services are selected or deselected.</p>
+      </div>
+
+      <div class="feature-card">
+        <h3>Dynamic Vehicle Advice</h3>
+        <p>Selecting a vehicle type (Saloon, SUV, Pickup, or Van) dynamically updates tailored mechanical inspection advice without reloading.</p>
+      </div>
+
+      <div class="feature-card">
+        <h3>Digit 6 Special Offer</h3>
+        <p>Automatic bundle discount: Computer Diagnosis is waived to KSh 0 whenever Full Service is selected, reflected in both JS and PHP.</p>
+      </div>
+
+      <div class="feature-card">
+        <h3>Server-Side Validation</h3>
+        <p>Form inputs are sanitized and independently re-evaluated in PHP, outputting an official verified receipt.</p>
+      </div>
+    </section>
+
+    <!-- Standard Rates Table -->
+    <div class="section-heading">
+      <h2>Service Rates</h2>
+      <p>Standard catalog rates in Kenyan Shillings (KSh)</p>
+    </div>
+
+    <div class="pricing-table-wrap">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Service Description</th>
+            <th>Scope of Work</th>
+            <th>Standard Rate (KSh)</th>
+            <th>Special Offer</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Engine Oil Change</strong></td>
+            <td>Engine oil drain, synthetic oil refill, filter replacement</td>
+            <td>3,000</td>
+            <td>Standard rate</td>
+          </tr>
+          <tr>
+            <td><strong>Brake Inspection</strong></td>
+            <td>Pad thickness, rotor condition, and fluid line checks</td>
+            <td>2,000</td>
+            <td>Standard rate</td>
+          </tr>
+          <tr>
+            <td><strong>Wheel Alignment</strong></td>
+            <td>Laser computerized suspension alignment</td>
+            <td>2,500</td>
+            <td>Standard rate</td>
+          </tr>
+          <tr>
+            <td><strong>Computer Diagnosis</strong></td>
+            <td>OBD-II electronic sensor and error diagnostics</td>
+            <td>3,500</td>
+            <td><strong>FREE</strong> with Full Service (Digit 6)</td>
+          </tr>
+          <tr>
+            <td><strong>Full Service</strong></td>
+            <td>Comprehensive mechanical, safety, and fluids inspection</td>
+            <td>8,000</td>
+            <td>Includes free diagnosis</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+  </main>
+
+  <!-- Site Footer -->
+  <footer class="site-footer">
+    <div class="footer-container">
+      <div>AutoPro Vehicle Service Booking &amp; Cost Estimation System</div>
+      <div>PHP &amp; Web Development CAT 1 Assignment</div>
+    </div>
+  </footer>
+
+</body>
+</html>
